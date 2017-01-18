@@ -3,8 +3,15 @@
 
 import sys, re, os, PyPDF2
 
-def main():
-    pass
+class PDF_operations():
+
+    def __init__(self):
+        pass
+
+    def listFiles(self):
+        pass
 
 if __name__ == '__main__':
-    main()
+    print("Direct access to "+ os.path.basename(__file__))
+else:
+    print(os.path.basename(__file__)+" class instance")
