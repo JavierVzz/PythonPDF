@@ -9,8 +9,17 @@ class PDF_operations():
         pass
 
     def listPDFs(self):
+        listPdfs = []
+        extRegex = re.compile(r".+pdf$")
+        listFiles = os.listdir()
+        for file in listFiles:
+            ext = extRegex.search(file)
+            if ext is not None:
+                listPdfs.append(ext.group())
         print(os.getcwd())
-        pprint.pprint(os.listdir())
+        for pdf in listPdfs:
+            print(pdf)
+
 
 if __name__ == '__main__':
     print("Direct access to "+ os.path.basename(__file__))
