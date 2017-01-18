@@ -1,15 +1,16 @@
 # Javier Vazquez
 # Python 3.6.0
 
-import sys, re, os, PyPDF2
+import sys, re, os, PyPDF2, pprint
 
 class PDF_operations():
 
     def __init__(self):
         pass
 
-    def listFiles(self):
-        pass
+    def listPDFs(self):
+        print(os.getcwd())
+        pprint.pprint(os.listdir())
 
 if __name__ == '__main__':
     print("Direct access to "+ os.path.basename(__file__))

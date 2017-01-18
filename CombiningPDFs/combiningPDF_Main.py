@@ -2,9 +2,11 @@
 # Python 3.6.0
 
 import sys, re, os, PyPDF2
+from operationsPDF import PDF_operations
 
 def main():
-    pass
+    opPdf = PDF_operations()
+    opPdf.listPDFs()
 
 if __name__ == '__main__':
     main()
