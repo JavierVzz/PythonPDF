@@ -1,10 +1,27 @@
 # Javier Vazquez
 # Python 3.6.0
 
-import sys, re, os, PyPDF2
+import sys, re, os, PyPDF2, pprint
 
-def main():
-    pass
+class PDF_operations():
+
+    def __init__(self):
+        pass
+
+    def listPDFs(self):
+        listPdfs = []
+        extRegex = re.compile(r".+pdf$")
+        listFiles = os.listdir()
+        for file in listFiles:
+            ext = extRegex.search(file)
+            if ext is not None:
+                listPdfs.append(ext.group())
+        print(os.getcwd())
+        for pdf in listPdfs:
+            print(pdf)
+
 
 if __name__ == '__main__':
-    main()
+    print("Direct access to "+ os.path.basename(__file__))
+else:
+    print(os.path.basename(__file__)+" class instance")
