@@ -39,8 +39,10 @@ class PDF_operations():
                     pdfWriter.addPage(pageObj)
             else:
                 for pageNum in range(pdfReader.numPages):
-                    pageObj = pdfReader.getPage(pageNum)
-                    pdfWriter.addPage(pageObj)
+                    if pageNum != 0:
+                        print(pageNum)
+                        pageObj = pdfReader.getPage(pageNum)
+                        pdfWriter.addPage(pageObj)
 
                 if i == len(listPDFs) - 1:
                     pdfFinal = open(outputFile, "wb")
