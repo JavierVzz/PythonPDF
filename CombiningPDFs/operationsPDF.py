@@ -22,6 +22,9 @@ class PDF_operations():
         return listPdfs
 
     def combining(self):
+        outputFile = "combined.pdf"
+        if os.path.isfile(outputFile) is True:
+            os.remove(outputFile)
         pprint.pprint(self.listPDFs())
         for pdf in self.listPDFs():
             pdfFile = open(pdf, "rb")
@@ -31,9 +34,9 @@ class PDF_operations():
                 pageObj = pdfReader.getPage(pageNum)
                 pdfWriter.addPage(pageObj)
 
-        pdfFinal = open("combined.pdf", "wb")
-        pdfWriter.write(pdfFinal)
-        pdfFinal.close()
+            pdfFinal = open(outputFile, "wb")
+            pdfWriter.write(pdfFinal)
+            pdfFinal.close()
 
 
 
