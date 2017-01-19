@@ -25,18 +25,24 @@ class PDF_operations():
         outputFile = "combined.pdf"
         if os.path.isfile(outputFile) is True:
             os.remove(outputFile)
-        pprint.pprint(self.listPDFs())
-        for pdf in self.listPDFs():
-            pdfFile = open(pdf, "rb")
+        listPDFs = self.listPDFs()
+        print(len(listPDFs))
+        for i in range(len(listPDFs)):
+            print(i)
+            print(listPDFs[i])
+            pdfFile = open(listPDFs[i], "rb")
             pdfReader = PyPDF2.PdfFileReader(pdfFile)
-            pdfWriter = PyPDF2.PdfFileWriter()
+            if i == 0:
+                pdfWriter = PyPDF2.PdfFileWriter()
+
             for pageNum in range(pdfReader.numPages):
                 pageObj = pdfReader.getPage(pageNum)
                 pdfWriter.addPage(pageObj)
 
-            pdfFinal = open(outputFile, "wb")
-            pdfWriter.write(pdfFinal)
-            pdfFinal.close()
+            if i == len(listPDFs) - 1:
+                pdfFinal = open(outputFile, "wb")
+                pdfWriter.write(pdfFinal)
+                pdfFinal.close()
 
 
 
