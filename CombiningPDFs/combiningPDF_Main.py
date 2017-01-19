@@ -6,7 +6,8 @@ from operationsPDF import PDF_operations
 
 def main():
     opPdf = PDF_operations()
-    opPdf.listPDFs()
+    for pdf in opPdf.listPDFs():
+        print(pdf)
     opPdf.combining()
 
 if __name__ == '__main__':

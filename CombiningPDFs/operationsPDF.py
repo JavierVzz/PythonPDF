@@ -26,10 +26,7 @@ class PDF_operations():
         if os.path.isfile(outputFile) is True:
             os.remove(outputFile)
         listPDFs = self.listPDFs()
-        print(len(listPDFs))
         for i in range(len(listPDFs)):
-            print(i)
-            print(listPDFs[i])
             pdfFile = open(listPDFs[i], "rb")
             pdfReader = PyPDF2.PdfFileReader(pdfFile)
             if i == 0:
@@ -40,7 +37,6 @@ class PDF_operations():
             else:
                 for pageNum in range(pdfReader.numPages):
                     if pageNum != 0:
-                        print(pageNum)
                         pageObj = pdfReader.getPage(pageNum)
                         pdfWriter.addPage(pageObj)
 
