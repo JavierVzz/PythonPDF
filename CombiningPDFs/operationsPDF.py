@@ -23,6 +23,18 @@ class PDF_operations():
 
     def combining(self):
         pprint.pprint(self.listPDFs())
+        for pdf in self.listPDFs():
+            pdfFile = open(pdf, "rb")
+            pdfReader = PyPDF2.PdfFileReader(pdfFile)
+            for pageNum in range(pdfReader.numPages):
+                pageObj = pdfReader.getPage(pageNum)
+                pdfWriter.addPage(pageObj)
+
+        pdfFinal = open("combined.pdf", "wb")
+        pdfWriter.write(pdfFinal)
+        pdfFinal.close()
+
+
 
 
 if __name__ == '__main__':
