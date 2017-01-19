@@ -17,8 +17,12 @@ class PDF_operations():
             if ext is not None:
                 listPdfs.append(ext.group())
         print(os.getcwd())
-        for pdf in listPdfs:
-            print(pdf)
+        # for pdf in listPdfs:
+        #     print(pdf)
+        return listPdfs
+
+    def combining(self):
+        pprint.pprint(self.listPDFs())
 
 
 if __name__ == '__main__':
