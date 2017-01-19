@@ -17,8 +17,34 @@ class PDF_operations():
             if ext is not None:
                 listPdfs.append(ext.group())
         print(os.getcwd())
-        for pdf in listPdfs:
-            print(pdf)
+        # for pdf in listPdfs:
+        #     print(pdf)
+        return listPdfs
+
+    def combining(self):
+        outputFile = "combined.pdf"
+        if os.path.isfile(outputFile) is True:
+            os.remove(outputFile)
+        listPDFs = self.listPDFs()
+        print(len(listPDFs))
+        for i in range(len(listPDFs)):
+            print(i)
+            print(listPDFs[i])
+            pdfFile = open(listPDFs[i], "rb")
+            pdfReader = PyPDF2.PdfFileReader(pdfFile)
+            if i == 0:
+                pdfWriter = PyPDF2.PdfFileWriter()
+
+            for pageNum in range(pdfReader.numPages):
+                pageObj = pdfReader.getPage(pageNum)
+                pdfWriter.addPage(pageObj)
+
+            if i == len(listPDFs) - 1:
+                pdfFinal = open(outputFile, "wb")
+                pdfWriter.write(pdfFinal)
+                pdfFinal.close()
+
+
 
 
 if __name__ == '__main__':
