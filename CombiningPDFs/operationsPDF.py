@@ -26,6 +26,7 @@ class PDF_operations():
         for pdf in self.listPDFs():
             pdfFile = open(pdf, "rb")
             pdfReader = PyPDF2.PdfFileReader(pdfFile)
+            pdfWriter = PyPDF2.PdfFileWriter()
             for pageNum in range(pdfReader.numPages):
                 pageObj = pdfReader.getPage(pageNum)
                 pdfWriter.addPage(pageObj)
