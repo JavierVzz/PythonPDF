@@ -34,15 +34,18 @@ class PDF_operations():
             pdfReader = PyPDF2.PdfFileReader(pdfFile)
             if i == 0:
                 pdfWriter = PyPDF2.PdfFileWriter()
+                for pageNum in range(pdfReader.numPages):
+                    pageObj = pdfReader.getPage(pageNum)
+                    pdfWriter.addPage(pageObj)
+            else:
+                for pageNum in range(pdfReader.numPages):
+                    pageObj = pdfReader.getPage(pageNum)
+                    pdfWriter.addPage(pageObj)
 
-            for pageNum in range(pdfReader.numPages):
-                pageObj = pdfReader.getPage(pageNum)
-                pdfWriter.addPage(pageObj)
-
-            if i == len(listPDFs) - 1:
-                pdfFinal = open(outputFile, "wb")
-                pdfWriter.write(pdfFinal)
-                pdfFinal.close()
+                if i == len(listPDFs) - 1:
+                    pdfFinal = open(outputFile, "wb")
+                    pdfWriter.write(pdfFinal)
+                    pdfFinal.close()
 
 
 
