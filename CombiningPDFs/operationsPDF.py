@@ -9,17 +9,16 @@ class PDF_operations():
         pass
 
     def listPDFs(self):
-        listPdfs = []
+        pdfList = []
         extRegex = re.compile(r".+pdf$")
         listFiles = os.listdir()
         for file in listFiles:
             ext = extRegex.search(file)
             if ext is not None:
-                listPdfs.append(ext.group())
+                pdfList.append(ext.group())
         print(os.getcwd())
-        # for pdf in listPdfs:
-        #     print(pdf)
-        return listPdfs
+        pdfList.sort()
+        return pdfList
 
     def combining(self):
         outputFile = "combined.pdf"
@@ -44,8 +43,6 @@ class PDF_operations():
                     pdfFinal = open(outputFile, "wb")
                     pdfWriter.write(pdfFinal)
                     pdfFinal.close()
-
-
 
 
 if __name__ == '__main__':
