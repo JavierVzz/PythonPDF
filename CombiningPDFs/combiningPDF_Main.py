@@ -1,6 +1,6 @@
 # Javier Vazquez
 # Python 3.6.0
-s
+
 import sys, re, os, PyPDF2, pprint
 from operationsPDF import PDF_operations
 
