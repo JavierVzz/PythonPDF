@@ -16,7 +16,6 @@ class PDF_operations():
             ext = extRegex.search(file)
             if ext is not None:
                 pdfList.append(ext.group())
-        print(os.getcwd())
         pdfList.sort()
         return pdfList
 
