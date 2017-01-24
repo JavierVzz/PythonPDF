@@ -51,6 +51,9 @@ class PDF_operations():
             pdfFile.close()
         self.deleteUnencrypted()
 
+    def unEncrypting(self, password):
+        pass
+
     def deleteUnencrypted(self):
         listPDFs = self.listPDFs(False)
         for pdf in listPDFs:
