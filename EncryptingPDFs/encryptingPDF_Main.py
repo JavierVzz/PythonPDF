@@ -11,6 +11,7 @@ def main():
     #     print(pdf)
     password = input("Password: ")
     opPdf.encrypting(password)
+    opPdf.deleteUnencrypted()
 
 if __name__ == '__main__':
     main()
