@@ -18,11 +18,15 @@ class PDF_operations():
             ext = extRegex.search(file)
             if ext is not None:
                 if encrypted == False:
-                    pdfReader = PyPDF2.PdfFileReader(open(ext.group(), "rb"))
+                    pdfFile = open(ext.group(), "rb")
+                    pdfReader = PyPDF2.PdfFileReader(pdfFile)
+                    pdfFile.close()
                     if pdfReader.isEncrypted == False:
                         pdfList.append(ext.group())
                 elif encrypted == True:
-                    pdfReader = PyPDF2.PdfFileReader(open(ext.group(), "rb"))
+                    pdfFile = open(ext.group(), "rb")
+                    pdfReader = PyPDF2.PdfFileReader(pdfFile)
+                    pdfFile.close()
                     if pdfReader.isEncrypted == True:
                         pdfList.append(ext.group())
         pdfList.sort()
@@ -45,16 +49,12 @@ class PDF_operations():
             pdfWriter.write(pdfOutputFile)
             pdfOutputFile.close()
             pdfFile.close()
-
-
-
+        self.deleteUnencrypted()
 
     def deleteUnencrypted(self):
-        os.remove("zz.pdf")
-
-
-
-
+        listPDFs = self.listPDFs(False)
+        for pdf in listPDFs:
+            os.remove(pdf)
 
     def combining(self):
         outputFile = "combined.pdf"
