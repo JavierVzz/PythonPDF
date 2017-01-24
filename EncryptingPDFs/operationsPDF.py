@@ -18,32 +18,43 @@ class PDF_operations():
             ext = extRegex.search(file)
             if ext is not None:
                 if encrypted == False:
-                    pdfReader = PyPDF2.PdfFileReader(open(ext.group(), "rb"))
+                    pdfFile = open(ext.group(), "rb")
+                    pdfReader = PyPDF2.PdfFileReader(pdfFile)
+                    pdfFile.close()
                     if pdfReader.isEncrypted == False:
                         pdfList.append(ext.group())
                 elif encrypted == True:
-                    pdfReader = PyPDF2.PdfFileReader(open(ext.group(), "rb"))
+                    pdfFile = open(ext.group(), "rb")
+                    pdfReader = PyPDF2.PdfFileReader(pdfFile)
+                    pdfFile.close()
                     if pdfReader.isEncrypted == True:
                         pdfList.append(ext.group())
         pdfList.sort()
         return pdfList
 
-    def encrypting(self):
+    def encrypting(self, password):
         listPDFs = self.listPDFs(False)
         for pdf in listPDFs:
             print(pdf)
         for i in range(len(listPDFs)):
-            pdfReader = PyPDF2.PdfFileReader(open(listPDFs[i], "rb"))
+            pdfFile = open(listPDFs[i], "rb")
+            pdfReader = PyPDF2.PdfFileReader(pdfFile)
+            #pdfReader = PyPDF2.PdfFileReader(open(listPDFs[i], "rb"))
             pdfWriter = PyPDF2.PdfFileWriter()
             for pageNum in range(pdfReader.numPages):
                 pageObj = pdfReader.getPage(pageNum)
                 pdfWriter.addPage(pageObj)
             pdfOutputFile = open("encrypted_"+listPDFs[i], "wb")
+            pdfWriter.encrypt(password)
             pdfWriter.write(pdfOutputFile)
-            pdfWriter.encrypt("password")
             pdfOutputFile.close()
+            pdfFile.close()
+        self.deleteUnencrypted()
 
-
+    def deleteUnencrypted(self):
+        listPDFs = self.listPDFs(False)
+        for pdf in listPDFs:
+            os.remove(pdf)
 
     def combining(self):
         outputFile = "combined.pdf"
