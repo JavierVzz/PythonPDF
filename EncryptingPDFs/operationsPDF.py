@@ -48,7 +48,7 @@ class PDF_operations():
             pdfWriter.write(pdfOutputFile)
             pdfOutputFile.close()
             pdfFile.close()
-        self.deleteUnencrypted()
+        self.deletePDFs(encrypted= False)
 
     def unEncrypting(self, password):
         listPDFs = self.listPDFs(True)
@@ -57,19 +57,21 @@ class PDF_operations():
         for i in range(len(listPDFs)):
             pdfFile = open(listPDFs[i], "rb")
             pdfReader = PyPDF2.PdfFileReader(pdfFile)
+            pdfReader.decrypt(password)
             pdfWriter = PyPDF2.PdfFileWriter()
             for pageNum in range(pdfReader.numPages):
                 pageObj = pdfReader.getPage(pageNum)
                 pdfWriter.addPage(pageObj)
-            pdfOutputFile = open("encrypted_"+listPDFs[i], "wb")
-            pdfWriter.encrypt(password)
+            listPDFs[i] = listPDFs[i].replace("encrypted_","")
+            pdfOutputFile = open(listPDFs[i], "wb")
             pdfWriter.write(pdfOutputFile)
             pdfOutputFile.close()
             pdfFile.close()
-        self.deleteUnencrypted()
+        self.deletePDFs(encrypted=True)
 
-    def deleteUnencrypted(self):
-        listPDFs = self.listPDFs(False)
+
+    def deletePDFs(self, encrypted):
+        listPDFs = self.listPDFs(encrypted)
         for pdf in listPDFs:
             os.remove(pdf)
 

@@ -10,7 +10,7 @@ def main():
     # for pdf in opPdf.listPDFs(False):
     #     print(pdf)
     password = input("Password: ")
-    opPdf.encrypting(password)
+    opPdf.unEncrypting(password)
 
 
 if __name__ == '__main__':
