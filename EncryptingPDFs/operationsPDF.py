@@ -1,7 +1,5 @@
 # Javier Vazquez
 # Python 3.6.0
-# version 2.0 -- encrypting option added
-# Jan 23, 2017
 
 import sys, re, os, PyPDF2, pprint
 
