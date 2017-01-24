@@ -28,7 +28,7 @@ class PDF_operations():
         pdfList.sort()
         return pdfList
 
-    def encrypting(self):
+    def encrypting(self, password):
         listPDFs = self.listPDFs(False)
         for pdf in listPDFs:
             print(pdf)
@@ -39,8 +39,8 @@ class PDF_operations():
                 pageObj = pdfReader.getPage(pageNum)
                 pdfWriter.addPage(pageObj)
             pdfOutputFile = open("encrypted_"+listPDFs[i], "wb")
+            pdfWriter.encrypt(password)
             pdfWriter.write(pdfOutputFile)
-            pdfWriter.encrypt("password")
             pdfOutputFile.close()
 
 
