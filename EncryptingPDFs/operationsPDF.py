@@ -3,7 +3,7 @@
 # version 2.0 -- encrypting option added
 # Jan 23, 2017
 
-import sys, re, os, PyPDF2, pprint
+import re, os, PyPDF2, random, string
 
 class PDF_operations():
 
@@ -74,6 +74,13 @@ class PDF_operations():
         listPDFs = self.listPDFs(encrypted)
         for pdf in listPDFs:
             os.remove(pdf)
+
+    def passwordGenerator(self):
+        chars = string.ascii_letters + string.digits
+        password = ""
+        for i in range(4):
+            password += chars[random.randint(0, len(chars))]
+        print(password)
 
     def combining(self):
         outputFile = "combined.pdf"
