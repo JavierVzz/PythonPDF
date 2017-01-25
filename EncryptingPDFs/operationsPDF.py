@@ -89,7 +89,7 @@ class PDF_operations():
             os.remove(pdf)
 
     def passwordGenerator(self):
-        '''Generates a random password 4 characters long'''
+        '''Generates a random password of 4 characters long'''
         chars = string.ascii_letters + string.digits
         password = ""
         for i in range(4):
