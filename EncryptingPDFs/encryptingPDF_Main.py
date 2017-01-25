@@ -7,11 +7,21 @@ from operationsPDF import PDF_operations
 def main():
     print(os.getcwd())
     opPdf = PDF_operations()
-    # for pdf in opPdf.listPDFs(False):
-    #     print(pdf)
-    #password = input("Password: ")
-    #opPdf.unEncrypting(password)
-    opPdf.passwordGenerator()
+    print("Press 1 to encrypt pdf files")
+    print("Press 2 to dencrypt pdf files")
+    option = input("Option: ")
+    option = int(option)
+    if option == 1:
+        password = opPdf.passwordGenerator()
+        print("Password: ", password)
+        opPdf.encrypting(password)
+    elif option == 2:
+        password = input("Password: ")
+        opPdf.unEncrypting(password)
+    else:
+        print("Incorrect input")
+
+    input("Press [enter] to exit!")
 
 
 if __name__ == '__main__':

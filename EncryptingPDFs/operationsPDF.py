@@ -3,7 +3,7 @@
 # version 2.0 -- encrypting option added
 # Jan 23, 2017
 
-import re, os, PyPDF2, random, string
+import re, os, PyPDF2, random, string, sys
 
 class PDF_operations():
 
@@ -11,6 +11,8 @@ class PDF_operations():
         pass
 
     def listPDFs(self, encrypted):
+        '''Lists the pdf files that are or are not encrypted,
+        True encrypted, False not encryted'''
         pdfList = []
         extRegex = re.compile(r".+pdf$")
         listFiles = os.listdir()
@@ -33,6 +35,7 @@ class PDF_operations():
         return pdfList
 
     def encrypting(self, password):
+        '''Encrypts pdf files'''
         listPDFs = self.listPDFs(False)
         for pdf in listPDFs:
             print(pdf)
@@ -51,38 +54,50 @@ class PDF_operations():
         self.deletePDFs(encrypted= False)
 
     def unEncrypting(self, password):
+        '''Decrypts pdf files'''
+        j = 0
         listPDFs = self.listPDFs(True)
         for pdf in listPDFs:
             print(pdf)
         for i in range(len(listPDFs)):
             pdfFile = open(listPDFs[i], "rb")
             pdfReader = PyPDF2.PdfFileReader(pdfFile)
-            pdfReader.decrypt(password)
-            pdfWriter = PyPDF2.PdfFileWriter()
-            for pageNum in range(pdfReader.numPages):
-                pageObj = pdfReader.getPage(pageNum)
-                pdfWriter.addPage(pageObj)
-            listPDFs[i] = listPDFs[i].replace("encrypted_","")
-            pdfOutputFile = open(listPDFs[i], "wb")
-            pdfWriter.write(pdfOutputFile)
-            pdfOutputFile.close()
-            pdfFile.close()
-        self.deletePDFs(encrypted=True)
+            if pdfReader.decrypt(password) == 0:
+                print("Wrong password!!!")
+                pdfFile.close()
+                break
+            else:
+                j += 1
+                pdfWriter = PyPDF2.PdfFileWriter()
+                for pageNum in range(pdfReader.numPages):
+                    pageObj = pdfReader.getPage(pageNum)
+                    pdfWriter.addPage(pageObj)
+                listPDFs[i] = listPDFs[i].replace("encrypted_","")
+                pdfOutputFile = open(listPDFs[i], "wb")
+                pdfWriter.write(pdfOutputFile)
+                pdfOutputFile.close()
+                pdfFile.close()
+        if j == len(listPDFs):
+           self.deletePDFs(encrypted=True)
 
 
     def deletePDFs(self, encrypted):
+        '''Deletes pdf files that are or are not encrypted,
+        True encrypted, False not encryted'''
         listPDFs = self.listPDFs(encrypted)
         for pdf in listPDFs:
             os.remove(pdf)
 
     def passwordGenerator(self):
+        '''Generates a random password 4 characters long'''
         chars = string.ascii_letters + string.digits
         password = ""
         for i in range(4):
             password += chars[random.randint(0, len(chars))]
-        print(password)
+        return password
 
     def combining(self):
+        '''Combines several pdfs files, only the first one keeps its cover'''
         outputFile = "combined.pdf"
         if os.path.isfile(outputFile) is True:
             os.remove(outputFile)
