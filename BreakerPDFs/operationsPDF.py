@@ -80,10 +80,49 @@ class PDF_operations():
         if j == len(listPDFs):
            self.deletePDFs(encrypted=True)
 
+    def dictCodeBreaker(self):
+        '''Decrypts pdf files'''
+        j = 0
+        password = ""
+        listPDFs = self.listPDFs(True)
+        for pdf in listPDFs:
+            print(pdf)
+
+        dictionary = open("dictionary.txt", "r")
+        words = dictionary.readlines()
+        dictionary.close()
+        pdfFile = open(listPDFs[0], "rb")
+        pdfReader = PyPDF2.PdfFileReader(pdfFile)
+        for word in words:
+            if pdfReader.decrypt(word.replace("\n", "")) == 1:
+                print("Password: ",word)
+                password = word.replace("\n", "")
+                pdfFile.close()
+                break
+        for i in range(len(listPDFs)):
+            pdfFile = open(listPDFs[i], "rb")
+            pdfReader = PyPDF2.PdfFileReader(pdfFile)
+            if pdfReader.decrypt(password) == 0:
+                print("Wrong password!!!")
+                pdfFile.close()
+                break
+            else:
+                j += 1
+                pdfWriter = PyPDF2.PdfFileWriter()
+                for pageNum in range(pdfReader.numPages):
+                    pageObj = pdfReader.getPage(pageNum)
+                    pdfWriter.addPage(pageObj)
+                listPDFs[i] = listPDFs[i].replace("encrypted_","")
+                pdfOutputFile = open(listPDFs[i], "wb")
+                pdfWriter.write(pdfOutputFile)
+                pdfOutputFile.close()
+                pdfFile.close()
+        if j == len(listPDFs):
+           self.deletePDFs(encrypted=True)
 
     def deletePDFs(self, encrypted):
         '''Deletes pdf files that are or are not encrypted,
-        True encrypted, False not encryted'''
+        True encrypted, False not encrypted'''
         listPDFs = self.listPDFs(encrypted)
         for pdf in listPDFs:
             os.remove(pdf)
@@ -100,11 +139,8 @@ class PDF_operations():
         '''Takes as password one word from the dictionary.txt file'''
         dictionary = open("dictionary.txt", "r")
         words = dictionary.readlines()
-        print(words[0])
-        print(words[random.randint(0, len(words)-1)].replace("\n",""))
         dictionary.close()
-
-
+        return words[random.randint(0, len(words)-1)].replace("\n","")
 
     def combining(self):
         '''Combines several pdfs files, only the first one keeps its cover'''
